@@ -1,0 +1,175 @@
+{% load static %}
+<!DOCTYPE html>
+<html dir="ltr">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <!-- Tell the browser to be responsive to screen width -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <!-- Favicon icon -->
+    <link rel="icon" type="image/png" sizes="16x16" href="{% static 'assets/images/favicon.png' %}">
+    <title>Sign-up</title>
+    <link rel="canonical" href="https://www.wrappixel.com/templates/ampleadmin/" />
+    <!-- Custom CSS -->
+    <link href="{% static 'dist/css/style.min.css' %}" rel="stylesheet">
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+<![endif]-->
+    <style>
+        #cover-spin {
+            position: fixed;
+            width: 100%;
+            left: 0;
+            right: 0;
+            top: 0;
+            bottom: 0;
+            background-color: rgba(255, 255, 255, 0.7);
+            z-index: 9999;
+            display: none;
+        }
+
+        @-webkit-keyframes spin {
+            from {
+                -webkit-transform: rotate(0deg);
+            }
+
+            to {
+                -webkit-transform: rotate(360deg);
+            }
+        }
+
+        @keyframes spin {
+            from {
+                transform: rotate(0deg);
+            }
+
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        #cover-spin::after {
+            content: '';
+            display: block;
+            position: absolute;
+            left: 48%;
+            top: 40%;
+            width: 40px;
+            height: 40px;
+            border-style: solid;
+            border-color: black;
+            border-top-color: transparent;
+            border-width: 4px;
+            border-radius: 50%;
+            -webkit-animation: spin .8s linear infinite;
+            animation: spin .8s linear infinite;
+        }
+    </style>
+</head>
+
+<body style="background-color: #264252;">
+    <div class="main-wrapper">
+        <div id="cover-spin"></div>
+        <!-- ============================================================== -->
+        <!-- Preloader - style you can find in spinners.css -->
+        <!-- ============================================================== -->
+        <div class="preloader">
+            <div class="lds-ripple">
+                <div class="lds-pos"></div>
+                <div class="lds-pos"></div>
+            </div>
+        </div>
+        <!-- ============================================================== -->
+        <!-- Preloader - style you can find in spinners.css -->
+        <!-- ============================================================== -->
+        <!-- ============================================================== -->
+        <!-- Login box.scss -->
+        <!-- ============================================================== -->
+
+        <!-- third div  -->
+        <div id="">
+            <div class="auth-wrapper d-flex no-block justify-content-center align-items-center">
+                <div class="auth-box">
+                    <div>
+                        <div class="logo">
+                            <span class="db"><img src="{% static 'assets/images/logos/logo-icon.png' %}"
+                                    alt="logo" /></span>
+                            <h5 class="font-medium mb-3">Sign Up to Admin</h5>
+                        </div>
+                        <!-- Form -->
+                        <div class="row">
+                            <div class="col-12">
+                                <form class="form-horizontal mt-3" action="{% url 'admin_signup' %}" method="POST">
+                                    {% csrf_token %}
+
+                                    <div class="form-group row ">
+                                        <div class="col-12 ">
+                                            {{form1.email}}
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <div class="col-12 ">
+                                            {{form1.password1}}
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <div class="col-12 ">
+                                            {{form1.password2}}
+                                        </div>
+                                    </div>
+                                    <div class="form-group text-center ">
+                                        <div class="col-xs-12 pb-3 ">
+                                            <button class="btn btn-block btn-lg " type="submit "
+                                                style="background-color: #264252; color: white;">SIGN UP</button>
+                                        </div>
+                                    </div>
+                                    <!-- <div class="form-group mb-0 mt-2 ">
+                                        <div class="col-sm-12 text-center ">
+                                            Already have an account? <a href=""
+                                                class="text-info ml-1 "><b>Sign In</b></a>
+                                        </div>
+                                    </div> -->
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <!-- ============================================================== -->
+        <!-- Right Sidebar -->
+        <!-- ============================================================== -->
+    </div>
+    <!-- ============================================================== -->
+    <!-- All Required js -->
+    <!-- ============================================================== -->
+    <script src="{% static 'assets/libs/jquery/dist/jquery.min.js' %}"></script>
+    <!-- Bootstrap tether Core JavaScript -->
+    <script src="{% static 'assets/libs/popper.js/dist/umd/popper.min.js' %}"></script>
+    <script src="{% static 'assets/libs/bootstrap/dist/js/bootstrap.min.js' %}"></script>
+    <!-- ============================================================== -->
+    <!-- This page plugin js -->
+    <!-- ============================================================== -->
+    <script>
+        $('[data-toggle="tooltip"]').tooltip();
+        $(".preloader").fadeOut();
+    </script>
+    <script>
+        document.getElementById('id_email').classList.add('form-control');
+        document.getElementById('id_password1').classList.add('form-control');
+        document.getElementById('id_password2').classList.add('form-control');
+        document.getElementById('id_email').placeholder = "Email";
+        document.getElementById('id_password1').placeholder = "Password";
+        document.getElementById('id_password2').placeholder = "Confirm Password";
+    </script>
+</body>
+
+</html>
