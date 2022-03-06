@@ -1,0 +1,126 @@
+{% extends "user_base.html" %}
+{% block content %}
+<div class="row d-flex justify-content-center">
+    <div class="col-lg-4 col-xlg-3 col-md-5">
+        <div class="card">
+            <div class="card-body">
+                <center class="mt-4"> 
+                    <img src="https://ui-avatars.com/api/?background=0D8ABC&color=fff&name={{contact.name}}" class="rounded-circle" width="150" />
+                    <h4 class="card-title mt-2">{{contact.name}}</h4>
+                    <h6 class="card-subtitle">{{contact.designation}} {{contact.department}} {{contact.company}}</h6>
+                </center>
+            </div>
+            <div>
+                <hr>
+            </div>
+            <div class="card-body"> 
+                {% if contact.email %}
+                <small class="text-muted">Email address  {{contact.email_label}}</small>
+                <h6>{{contact.email}}</h6>
+                {% endif %}
+                {% if contact.email_2 %}
+                <small class="text-muted">Email address {{contact.email_2_label}}</small>
+                <h6>{{contact.email_2}}</h6>
+                {% endif %}
+                {% if contact.email_3 %}
+                <small class="text-muted">Email address {{contact.email_3_label}}</small>
+                <h6>{{contact.email_3}}</h6>
+                {% endif %}
+                {% if contact.phone %}
+                <small class="text-muted pt-4 db">Phone {{contact.phone_label}}</small>
+                <div class="">
+                    <h6>{{contact.phone}}</h6>
+                </div>
+                {% endif %}
+                {% if contact.phone_2 %}
+                <small class="text-muted pt-4 db">Phone {{contact.phone_2_label}}</small>
+                <h6>{{contact.phone_2}}</h6>
+                {% endif %}
+                {% if contact.phone_3 %}
+                <small class="text-muted pt-4 db">Phone {{contact.phone_3_label}}</small>
+                <h6>{{contact.phone_3}}</h6>
+                {% endif %}
+                {% if contact.phone_4 %}
+                <small class="text-muted pt-4 db">Phone {{contact.phone_4_label}}</small>
+                <h6>{{contact.phone_4}}</h6>
+                {% endif %}
+                {% if contact.phone_5 %}
+                <small class="text-muted pt-4 db">Phone {{contact.phone_5_label}}</small>
+                <h6>{{contact.phone_5}}</h6>
+                {% endif %}
+                {% if contact.address or contact.city or contact.pin_code or contact.state %}
+                <small class="text-muted pt-4 db">Address</small>
+                <h6>{{contact.address}} {{contact.city}} {{contact.state}} {{contact.pin_code}} {{contact.country}}</h6>
+                {% endif %}
+                <small class="text-muted pt-4 db">Social Profile</small>
+                <br />
+                {% if contact.phone %}
+                <a href="tel:{{contact.phone}}" class="btn btn-circle btn-primary"><i class="fa fa-phone"></i></a>
+                {% endif %}
+                {% if contact.phone_is_whatsapp != 'no' %}
+                <button class="btn btn-circle btn-success" onclick="whatsappNum()">
+                    <i class="fab fa-whatsapp"></i></button>
+                {% endif %}
+                <button class="btn btn-circle btn-danger" data-toggle="modal" data-target="#report_contact_modal">
+                    <i class="mdi mdi-alert"></i></button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- modal to create report  -->
+<div class="modal fade" id="report_contact_modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Report This Contact</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form class="form-group" method="post" action="{% url 'contact_reports' %}">
+                    {% csrf_token %}
+                    <div class="row">
+                        <div class="col" style="display: none;">
+                            <div class="form-group">
+                                <label class="mr-sm-2" for="inlineFormCustomSelect">contact id</label>
+                                <input type="text" class="form-control" value="{{contact.id}}" placeholder="" name="contact_id" id="contact_id">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="">
+                        <div class="form-group">
+                            <!-- <label class="mr-sm-2" for="inlineFormCustomSelect">Report Contact</label> -->
+                            <input type="text" class="form-control" placeholder="Text here" name="report" id="report">
+                        </div>
+                    </div>
+                    <div>
+                        <button type="submit" class="btn btn-success">Submit</button>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    const whatsappNum = () => {
+            const txt = `{{contact.phone}}`;
+            console.log("num", txt)
+            const numb = txt.match(/\d/g);
+            console.log("what", numb)
+            const ten_dig = numb.join("");
+            const final_numb = ten_dig.slice(-10);
+            console.log(final_numb);
+            window.open(`//api.whatsapp.com/send?phone=91${final_numb}&text=Hello`)
+            // return final_numb;
+        }
+</script>
+
+{% endblock %}

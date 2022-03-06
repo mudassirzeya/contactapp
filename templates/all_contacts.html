@@ -1,35 +1,249 @@
 {% extends "base.html" %}
 {% block content %}
+<style>
+    #cover-spin {
+        position: fixed;
+        width: 100%;
+        left: 0;
+        right: 0;
+        top: 0;
+        bottom: 0;
+        background-color: rgba(255, 255, 255, 0.7);
+        z-index: 9999;
+        display: none;
+    }
+
+    @-webkit-keyframes spin {
+        from {
+            -webkit-transform: rotate(0deg);
+        }
+
+        to {
+            -webkit-transform: rotate(360deg);
+        }
+    }
+
+    @keyframes spin {
+        from {
+            transform: rotate(0deg);
+        }
+
+        to {
+            transform: rotate(360deg);
+        }
+    }
+
+    #cover-spin::after {
+        content: '';
+        display: block;
+        position: absolute;
+        left: 48%;
+        top: 40%;
+        width: 40px;
+        height: 40px;
+        border-style: solid;
+        border-color: black;
+        border-top-color: transparent;
+        border-width: 4px;
+        border-radius: 50%;
+        -webkit-animation: spin .8s linear infinite;
+        animation: spin .8s linear infinite;
+    }
+
+    #cover-spin {
+        position: fixed;
+        width: 100%;
+        left: 0;
+        right: 0;
+        top: 0;
+        bottom: 0;
+        background-color: rgba(255, 255, 255, 0.7);
+        z-index: 9999;
+        display: none;
+    }
+
+    @-webkit-keyframes spin {
+        from {
+            -webkit-transform: rotate(0deg);
+        }
+
+        to {
+            -webkit-transform: rotate(360deg);
+        }
+    }
+
+    @keyframes spin {
+        from {
+            transform: rotate(0deg);
+        }
+
+        to {
+            transform: rotate(360deg);
+        }
+    }
+
+    #cover-spin::after {
+        content: '';
+        display: block;
+        position: absolute;
+        left: 48%;
+        top: 40%;
+        width: 40px;
+        height: 40px;
+        border-style: solid;
+        border-color: black;
+        border-top-color: transparent;
+        border-width: 4px;
+        border-radius: 50%;
+        -webkit-animation: spin .8s linear infinite;
+        animation: spin .8s linear infinite;
+    }
+</style>
+{% for message in messages %}
+<p class="text-danger text-center" id="messages">{{message}}</p>
+{% endfor %}
+<p class="text-danger text-center" id="error"></p>
+<div class="w-100">
+    <div class="justify-content-center">
+        <form class="form-inline" action="{% url 'contact_page' %}" method="get">
+            <!-- <label class="mr-sm-2" for="pwd">Search:</label> -->
+            <input type="text" class="form-control mr-2" placeholder="Search here.." value="" id="" name="text">
+            <div class="p-2">
+                <button type="submit" class="btn btn-success mr-2">Search</button>
+                <a class="btn btn-primary mr-2" href="{% url 'contact_page' %}">Reset</a>
+            </div>
+        </form>
+    </div>
+</div>
+<br>
 <div class="float-right">
-    <button class="btn btn-warning text-white" data-toggle="modal" data-target="#add_contact_modal"><i
+    <button class="btn btn-warning text-white" onclick="create_contact_popup()"><i
             class="fas fa-plus"></i> Add Each Contact</button>
 </div>
 <div class="table-responsive">
     <table class="table table-hover table-bordered" id="file_export">
         <thead>
             <tr>
-                <th>Organization</th>
                 <th>Name</th>
+                <th>Designation</th>
+                <th>Department</th>
+                <th>Company</th>
                 <th>Phone</th>
+                <th>Phone Label</th>
+                <th>Phone is Whatsapp</th>
+                <th>Phone 2</th>
+                <th>Phone 2 Label</th>
+                <th>Phone 2 is Whatsapp</th>
+                <th>Phone 3</th>
+                <th>Phone 3 Label</th>
+                <th>Phone 3 is Whatsapp</th>
+                <th>Phone 4</th>
+                <th>Phone 4 Label</th>
+                <th>Phone 4 is Whatsapp</th>
+                <th>Phone 5</th>
+                <th>Phone 5 Label</th>
+                <th>Phone 5 is Whatsapp</th>
+                <th>Email</th>
+                <th>Email Label</th>
+                <th>Email 2</th>
+                <th>Email 2 Label</th>
+                <th>Email 3</th>
+                <th>Email 3 Label</th>
+                <th>Website</th>
+                <th>Address</th>
+                <th>City</th>
+                <th>State</th>
+                <th>Country</th>
+                <th>Pin Code</th>
+                <th>Photo</th>
+                <th>Notes</th>
+                <th></th>
+                <th></th>
                 <!-- <th>password</th> -->
             </tr>
         </thead>
         <tbody>
             {% for contact in all_contact %}
             <tr>
-                <td>{{contact.organization}}</td>
                 <td>{{contact.name}}</td>
+                <td>{{contact.designation}}</td>
+                <td>{{contact.department}}</td>
+                <td>{{contact.company}}</td>
                 <td>{{contact.phone}}</td>
+                <td>{{contact.phone_label}}</td>
+                <td>{{contact.phone_is_whatsapp}}</td>
+                <td>{{contact.phone_2}}</td>
+                <td>{{contact.phone_2_label}}</td>
+                <td>{{contact.phone_2_is_whatsapp}}</td>
+                <td>{{contact.phone_3}}</td>
+                <td>{{contact.phone_3_label}}</td>
+                <td>{{contact.phone_3_is_whatsapp}}</td>
+                <td>{{contact.phone_4}}</td>
+                <td>{{contact.phone_4_label}}</td>
+                <td>{{contact.phone_4_is_whatsapp}}</td>
+                <td>{{contact.phone_5}}</td>
+                <td>{{contact.phone_5_label}}</td>
+                <td>{{contact.phone_5_is_whatsapp}}</td>
+                <td>{{contact.email}}</td>
+                <td>{{contact.email_label}}</td>
+                <td>{{contact.email_2}}</td>
+                <td>{{contact.email_2_label}}</td>
+                <td>{{contact.email_3}}</td>
+                <td>{{contact.email_3_label}}</td>
+                <td>{{contact.website}}</td>
+                <td>{{contact.address}}</td>
+                <td>{{contact.city}}</td>
+                <td>{{contact.state}}</td>
+                <td>{{contact.country}}</td>
+                <td>{{contact.pin_code}}</td>
+                <td>{{contact.photo}}</td>
+                <td>{{contact.notes}}</td>
+                <td><button class="btn text-primary" id="btn_{{contact.id}}" onclick="edit_contact_popup(this)">
+                    <i class="fas fa-edit"></i>
+                </button></td>
+                <td><button class="btn text-danger" id="btn_{{contact.id}}" onclick="delete_contact(this)">
+                    <i class="fas fa-trash"></i>
+                </button></td>
                 <!-- <td>{{student.user.user.password}}</td> -->
             </tr>
             {% endfor %}
         </tbody>
     </table>
 </div>
+<div class="row justify-content-center">
+    <div>
+        {% if text %}
+            {% if all_contact.has_previous %}
+            <a class="btn btn-primary m-3" href="{% url 'contact_page' %}?page={{all_contact.previous_page_number}}&text={{text}}">
+                <i class=" fas fa-angle-double-left"></i> Previous Page</a>
+            {% endif %}
+        {% else %}
+            {% if all_contact.has_previous %}
+            <a class="btn btn-primary m-3" href="{% url 'contact_page' %}?page={{all_contact.previous_page_number}}">
+                <i class=" fas fa-angle-double-left"></i> Previous Page</a>
+            {% endif %}
+        {% endif %}
 
-<div class="modal fade" id="add_contact_modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
-    aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered" role="document">
+        {% if text %}
+            {% if all_contact.has_next %}
+            <a class="btn btn-success" href="{% url 'contact_page' %}?page={{all_contact.next_page_number}}&text={{text}}">
+                Next Page
+                <i class=" fas fa-angle-double-right"></i></a>
+            {% endif %}
+        {% else %}
+            {% if all_contact.has_next %}
+            <a class="btn btn-success" href="{% url 'contact_page' %}?page={{all_contact.next_page_number}}">Next Page
+                <i class=" fas fa-angle-double-right"></i></a>
+            {% endif %}
+        {% endif %}
+    </div>
+</div>
+
+
+<!-- edit contact -->
+<div class="modal fade bd-example-modal-xl" id="edit_contact_modal" tabindex="-1" role="dialog"
+    aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title text-info" id="exampleModalLongTitle">Add New Contact
@@ -39,23 +253,259 @@
                 </button>
             </div>
             <div class="modal-body">
-                <form method="POST" action="{% url 'contact_page' %}">
+                <form id="contact_form">
                     {% csrf_token %}
-                    <div class="form-group mb-4">
-                        <label class="mr-sm-2" for="inlineFormCustomSelect">Organization</label>
-                        <input type="text" class="form-control" placeholder="organization.." name="organization"
-                            id="question" required>
+                    <div>
+                        <div class="row">
+                            <div class="col" style="display: none;">
+                                <div class="form-group">
+                                    <label class="mr-sm-2" for="inlineFormCustomSelect">contact id</label>
+                                    <input type="text" class="form-control" placeholder="name.." name="contact_id" id="contact_id">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row bg-warning mt-2">
+                            <div class="col">
+                                <div class="form-group">
+                                    <label class="mr-sm-2" for="inlineFormCustomSelect">Name</label>
+                                    <input type="text" class="form-control" placeholder="name.." name="name" id="name">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row bg-warning mt-2">
+                            <div class="col">
+                                <div class="form-group mb-4">
+                                    <label class="mr-sm-2" for="inlineFormCustomSelect">Designation</label>
+                                    <input type="text" class="form-control" placeholder="designation.."
+                                        name="designation" id="designation">
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div class="form-group mb-4">
+                                    <label class="mr-sm-2" for="inlineFormCustomSelect">Department</label>
+                                    <input type="text" class="form-control" placeholder="department.." name="department"
+                                        id="department">
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div class="form-group mb-4">
+                                    <label class="mr-sm-2" for="inlineFormCustomSelect">Company</label>
+                                    <input type="text" class="form-control" placeholder="company.." name="company"
+                                        id="company">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row bg-success mt-2">
+                            <div class="col">
+                                <div class="form-group mb-4">
+                                    <label class="mr-sm-2" for="inlineFormCustomSelect">Phone 1</label>
+                                    <input type="text" class="form-control" placeholder="" name="phone_1" id="phone_1">
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div class="form-group mb-4">
+                                    <label class="mr-sm-2" for="inlineFormCustomSelect">Phone 1 Label</label>
+                                    <input type="text" class="form-control" placeholder="label.." name="label_1" id="label_1">
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div class="form-group mb-4">
+                                    <label class="mr-sm-2" for="inlineFormCustomSelect">Phone 1 is whatsapp</label>
+                                    <input type="text" class="form-control" placeholder="Yes or No.." name="whatsapp_1"
+                                        id="whatsapp_1">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row bg-success mt-2">
+                            <div class="col">
+                                <div class="form-group mb-4">
+                                    <label class="mr-sm-2" for="inlineFormCustomSelect">Phone 2</label>
+                                    <input type="text" class="form-control" placeholder="" name="phone_2" id="phone_2">
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div class="form-group mb-4">
+                                    <label class="mr-sm-2" for="inlineFormCustomSelect">Phone 2 Label</label>
+                                    <input type="text" class="form-control" placeholder="label.." name="label_2" id="label_2">
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div class="form-group mb-4">
+                                    <label class="mr-sm-2" for="inlineFormCustomSelect">Phone 2 is Whatsapp</label>
+                                    <input type="text" class="form-control" placeholder="Yes or No.."
+                                        name="whatsapp_2" id="whatsapp_2">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row bg-success mt-2">
+                            <div class="col">
+                                <div class="form-group mb-4">
+                                    <label class="mr-sm-2" for="inlineFormCustomSelect">Phone 3</label>
+                                    <input type="text" class="form-control" placeholder="" name="phone_3" id="phone_3">
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div class="form-group mb-4">
+                                    <label class="mr-sm-2" for="inlineFormCustomSelect">Phone 3 Label</label>
+                                    <input type="text" class="form-control" placeholder="label.." name="label_3" id="label_3">
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div class="form-group mb-4">
+                                    <label class="mr-sm-2" for="inlineFormCustomSelect">Phone 3 is Whatsapp</label>
+                                    <input type="text" class="form-control" placeholder="Yes or No.." name="whatsapp_3"
+                                        id="whatsapp_3">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row bg-success mt-2 ">
+                            <div class="col">
+                                <div class="form-group mb-4">
+                                    <label class="mr-sm-2" for="inlineFormCustomSelect">Phone 4</label>
+                                    <input type="text" class="form-control" placeholder="" name="phone_4" id="phone_4">
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div class="form-group mb-4">
+                                    <label class="mr-sm-2" for="inlineFormCustomSelect">Phone 4 Label</label>
+                                    <input type="text" class="form-control" placeholder="label.." name="label_4" id="label_4">
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div class="form-group mb-4">
+                                    <label class="mr-sm-2" for="inlineFormCustomSelect">Phone 4 is Whatsapp</label>
+                                    <input type="text" class="form-control" placeholder="Yes or No.." name="whatsapp_4"
+                                        id="whatsapp_4">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row bg-success mt-2">
+                            <div class="col">
+                                <div class="form-group mb-4">
+                                    <label class="mr-sm-2" for="inlineFormCustomSelect">Phone 5</label>
+                                    <input type="text" class="form-control" placeholder="" name="phone_5" id="phone_5">
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div class="form-group mb-4">
+                                    <label class="mr-sm-2" for="inlineFormCustomSelect">Phone 5 Label</label>
+                                    <input type="text" class="form-control" placeholder="label.." name="label_5" id="label_5">
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div class="form-group mb-4">
+                                    <label class="mr-sm-2" for="inlineFormCustomSelect">Phone 5 is Whatsapp</label>
+                                    <input type="text" class="form-control" placeholder="Yes or No.." name="whatsapp_5"
+                                        id="whatsapp_5">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row bg-primary mt-2">
+                            <div class="col">
+                                <div class="form-group mb-4">
+                                    <label class="mr-sm-2" for="inlineFormCustomSelect">Email</label>
+                                    <input type="email" class="form-control" placeholder="Email.." name="email" id="email">
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div class="form-group mb-4">
+                                    <label class="mr-sm-2" for="inlineFormCustomSelect">Email Label</label>
+                                    <input type="text" class="form-control" placeholder="label.." name="email_label"
+                                        id="email_label">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row bg-primary mt-2">
+                            <div class="col">
+                                <div class="form-group mb-4">
+                                    <label class="mr-sm-2" for="inlineFormCustomSelect">Email 2</label>
+                                    <input type="email" class="form-control" placeholder="Email.." name="email_2" id="email_2">
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div class="form-group mb-4">
+                                    <label class="mr-sm-2" for="inlineFormCustomSelect">Email 2 Label</label>
+                                    <input type="text" class="form-control" placeholder="label.." name="email_2_label"
+                                        id="email_2_label">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row bg-primary mt-2">
+                            <div class="col">
+                                <div class="form-group mb-4">
+                                    <label class="mr-sm-2" for="inlineFormCustomSelect">Email 3</label>
+                                    <input type="email" class="form-control" placeholder="Email.." name="email_3" id="email_3">
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div class="form-group mb-4">
+                                    <label class="mr-sm-2" for="inlineFormCustomSelect">Email 3 Label</label>
+                                    <input type="text" class="form-control" placeholder="label.." name="email_3_label"
+                                        id="email_3_label">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row bg-danger mt-2">
+                            <div class="col">
+                                <div class="form-group">
+                                    <label class="mr-sm-2" for="inlineFormCustomSelect">Website</label>
+                                    <input type="text" class="form-control" placeholder="website.." name="website" id="website">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row bg-info mt-2">
+                            <div class="col">
+                                <div class="form-group mb-4">
+                                    <label class="mr-sm-2" for="inlineFormCustomSelect">Address</label>
+                                    <input type="text" class="form-control" placeholder="adress.." name="address" id="address">
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div class="form-group mb-4">
+                                    <label class="mr-sm-2" for="inlineFormCustomSelect">city</label>
+                                    <input type="text" class="form-control" placeholder="city.." name="city" id="city">
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div class="form-group mb-4">
+                                    <label class="mr-sm-2" for="inlineFormCustomSelect">State</label>
+                                    <input type="text" class="form-control" placeholder="state.." name="state" id="state">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row bg-info mt-2">
+                            <div class="col">
+                                <div class="form-group mb-4">
+                                    <label class="mr-sm-2" for="inlineFormCustomSelect">Country</label>
+                                    <input type="text" class="form-control" placeholder="country.." name="country"
+                                        id="country">
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div class="form-group mb-4">
+                                    <label class="mr-sm-2" for="inlineFormCustomSelect">Pin Code</label>
+                                    <input type="text" class="form-control" placeholder="" name="pincode" id="pincode">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row bg-success mt-2">
+                            <div class="col">
+                                <div class="form-group mb-4">
+                                    <label class="mr-sm-2" for="inlineFormCustomSelect">Photo</label>
+                                    <input type="text" class="form-control" placeholder="link.." name="photo" id="photo">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row bg-secondary mt-2">
+                            <div class="col">
+                                <div class="form-group mb-4">
+                                    <label class="mr-sm-2" for="inlineFormCustomSelect">Notes</label>
+                                    <input type="text" class="form-control" placeholder="Note.." name="notes" id="notes">
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                    <div class="form-group mb-4">
-                        <label class="mr-sm-2" for="inlineFormCustomSelect">Name</label>
-                        <input type="text" class="form-control" placeholder="name.." name="name"
-                            id="question_confirm" >
-                    </div>
-                    <div class="form-group mb-4">
-                        <label class="mr-sm-2" for="inlineFormCustomSelect">Phone</label>
-                        <input type="number" class="form-control" placeholder="phone.." name="phone" id="" required>
-                    </div>
-                    <div class="d-flex justify-content-center">
+                    <div class="d-flex justify-content-center mt-2">
                         <button class="btn btn-success" type="submit">Add Contacts</button>
                     </div>
                 </form>
@@ -66,4 +516,184 @@
         </div>
     </div>
 </div>
+
+
+<!-- delete modal  -->
+<div class="modal fade" id="delete_contact_modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Delete This Contact</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form class="form-group" method="post" action="{% url 'delete_contact' %}">
+                    {% csrf_token %}
+                    <div class="row">
+                        <div class="col" style="display: none;">
+                            <div class="form-group">
+                                <label class="mr-sm-2" for="inlineFormCustomSelect">contact id</label>
+                                <input type="text" class="form-control" placeholder="" name="delete_id" id="delete_id">
+                            </div>
+                        </div>
+                    </div>
+                    <h3>Are You Sure you want to delete this contact ?</h3>
+                    <div>
+                        <button type="submit" class="btn btn-success">Yes</button>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+
+
+    function create_contact_popup(){
+        var form = document.getElementById('contact_form');
+        form.setAttribute("method", "POST");
+        form.setAttribute("action", "{% url 'contact_page'  %}");
+        document.getElementById('name').value = '';
+        document.getElementById('designation').value = '';
+        document.getElementById('department').value = '';
+        document.getElementById('company').value = '';
+        document.getElementById('phone_1').value = '';
+        document.getElementById('label_1').value = '';
+        document.getElementById('whatsapp_1').value = '';
+        document.getElementById('phone_2').value = '';
+        document.getElementById('label_2').value = '';
+        document.getElementById('whatsapp_2').value = '';
+        document.getElementById('phone_3').value = '';
+        document.getElementById('label_3').value = '';
+        document.getElementById('whatsapp_3').value = '';
+        document.getElementById('phone_4').value = '';
+        document.getElementById('label_4').value = '';
+        document.getElementById('whatsapp_4').value = '';
+        document.getElementById('phone_5').value = '';
+        document.getElementById('label_5').value = '';
+        document.getElementById('whatsapp_5').value = '';
+        document.getElementById('email').value = '';
+        document.getElementById('email_label').value = '';
+        document.getElementById('email_2').value = ''
+        document.getElementById('email_2_label').value = '';
+        document.getElementById('email_3').value = '';
+        document.getElementById('email_3_label').value = '';
+        document.getElementById('website').value = '';
+        document.getElementById('address').value = '';
+        document.getElementById('city').value = '';
+        document.getElementById('state').value = '';
+        document.getElementById('country').value = '';
+        document.getElementById('pincode').value = '';
+        document.getElementById('photo').value = '';
+        document.getElementById('notes').value = '';
+        $('#edit_contact_modal').modal('toggle');
+
+    }
+
+    function delete_contact(t){
+        var contact_id = t.id.split('_')[1];
+        document.getElementById('delete_id').value = contact_id;
+        $('#delete_contact_modal').modal('toggle');
+
+    }
+
+    function edit_contact_popup(t) {
+        var contact_id = t.id.split('_')[1];
+        document.getElementById('contact_id').value = contact_id;
+        // var contact_id = t.id;
+        var form = document.getElementById('contact_form');
+        form.setAttribute("method", "POST");
+        form.setAttribute("action", "{% url 'edit_contact' %}");
+        send_id(t);
+
+    }
+    // data - target="#edit_contact_modal"
+    function send_id(t) {
+            var cont_id = t.id.split('_')[1];
+            // var pill_id = 'pill-' + question_id + '-tab';
+            $('#cover-spin').show(0);
+            contact_data = [];
+            try {
+                user_attend = {
+                    contact_id: cont_id,
+                }
+                if (user_attend.contact_id.length > 0) {
+                    contact_data.push(user_attend);
+                }
+            } catch (e) {alert('something went wrong please try again') }
+
+            fetch("/contact_id/", {
+                method: "POST",
+                body: JSON.stringify({
+                    data_obj: contact_data,
+                }),
+                // Adding headers to the request
+                headers: {
+                    "Content-type": "application/json",
+                    "X-CSRFToken": "{{ csrf_token }}",
+                },
+            })
+                .then((response) => {
+                    console.log(response);
+                    if (response.redirected) {
+                        window.location.href = response.url;
+                        return;
+                    }
+                    return response.json();
+                })
+                .then((data) => {
+                    console.log("Success: ", data);
+                    var data_json = JSON.parse(data.data);
+                    var final_data = data_json[0]['fields']
+                    if (data.msg == 'success') {
+                       document.getElementById('name').value = final_data['name'];
+                       document.getElementById('designation').value = final_data['designation'];
+                       document.getElementById('department').value = final_data['department'];
+                       document.getElementById('company').value = final_data['company'];
+                       document.getElementById('phone_1').value = final_data['phone'];
+                       document.getElementById('label_1').value = final_data['phone_label'];
+                       document.getElementById('whatsapp_1').value = final_data['phone_is_whatsapp'];
+                       document.getElementById('phone_2').value = final_data['phone_2'];
+                       document.getElementById('label_2').value = final_data['phone_2_label'];
+                       document.getElementById('whatsapp_2').value = final_data['phone_2_is_whatsapp'];
+                       document.getElementById('phone_3').value = final_data['phone_3'];
+                        document.getElementById('label_3').value = final_data['phone_3_label'];
+                        document.getElementById('whatsapp_3').value = final_data['phone_3_is_whatsapp'];
+                        document.getElementById('phone_4').value = final_data['phone_4'];
+                        document.getElementById('label_4').value = final_data['phone_4_label'];
+                        document.getElementById('whatsapp_4').value = final_data['phone_4_is_whatsapp'];
+                        document.getElementById('phone_5').value = final_data['phone_5'];
+                        document.getElementById('label_5').value = final_data['phone_5_label'];
+                        document.getElementById('whatsapp_5').value = final_data['phone_5_is_whatsapp'];
+                       document.getElementById('email').value = final_data['email'];
+                       document.getElementById('email_label').value = final_data['email_label'];
+                       document.getElementById('email_2').value = final_data['email_2'];
+                       document.getElementById('email_2_label').value = final_data['email_2_label'];
+                       document.getElementById('email_3').value = final_data['email_3'];
+                       document.getElementById('email_3_label').value = final_data['email_3_label'];
+                       document.getElementById('website').value = final_data['website'];
+                       document.getElementById('address').value = final_data['address'];
+                       document.getElementById('city').value = final_data['city'];
+                       document.getElementById('state').value = final_data['state'];
+                       document.getElementById('country').value = final_data['country'];
+                       document.getElementById('pincode').value = final_data['pin_code'];
+                       document.getElementById('photo').value = final_data['photo'];
+                       document.getElementById('notes').value = final_data['notes'];
+                        $('#cover-spin').hide(0);
+                        $('#edit_contact_modal').modal('toggle');
+                    }
+                    else {
+                        document.getElementById('error').innerHTML = "Something went Wrong please refresh the page";
+                        $('#cover-spin').hide(0);
+                    }
+                });
+        }
+</script>
 {% endblock %}
