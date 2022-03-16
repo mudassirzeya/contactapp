@@ -1,8 +1,11 @@
 from itertools import count
 from django.shortcuts import render, redirect
 from rest_framework.response import Response
+from rest_framework.authtoken.models import Token
+from rest_framework.permissions import AllowAny, IsAuthenticated
 from django.http import JsonResponse
 from django.core import serializers
+from django.core.exceptions import ValidationError
 from django.core.paginator import Paginator, EmptyPage
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
@@ -11,7 +14,7 @@ from django.contrib import messages
 from .forms import RegisterForm
 from .serializers import ContactSerializer
 from django.contrib.auth.decorators import login_required
-from rest_framework.decorators import api_view
+from rest_framework.decorators import api_view, permission_classes
 from django.db.models import Q
 from urllib.request import urlopen
 import json
@@ -39,6 +42,28 @@ def login_page(request):
     return render(request, 'login.html', context)
 
 
+@api_view(['POST'])
+@permission_classes([AllowAny])
+def mobile_login(request):
+    if request.method == 'POST':
+        reqBody = json.loads(request.body)
+        # print('req', reqBody)
+        phone = reqBody['phone']
+        password = reqBody['password']
+        # print('data', phone, password)
+        account_user = authenticate(
+            request, username=phone, password=password)
+        # print("user", account_user)
+        if account_user is not None:
+            login(request, account_user)
+            token = Token.objects.get_or_create(user=account_user)[0].key
+            return Response({'token': token, 'msg': 'success'})
+        else:
+            return Response({'msg': 'failed'})
+    else:
+        return Response({'msg': 'failed'})
+
+
 @login_required(login_url='admin_login')
 def add_admin(request):
     admin_user = UserProfile.objects.filter(user_type='admin')
@@ -54,6 +79,7 @@ def add_admin(request):
         if already_user is None:
             new_user = User.objects.create_user(
                 username=username, password=passcode, first_name=name)
+            Token.objects.get_or_create(user=new_user)[0].key
             UserProfile.objects.create(
                 user=new_user,
                 phone=username,
@@ -83,6 +109,7 @@ def add_user(request):
         if already_user is None:
             new_user = User.objects.create_user(
                 username=username, password=passcode, first_name=name)
+            Token.objects.get_or_create(user=new_user)[0].key
             UserProfile.objects.create(
                 user=new_user,
                 phone=username,
@@ -355,6 +382,29 @@ def report_contact(request):
 
 
 @api_view(['POST'])
+@permission_classes([IsAuthenticated])
+def mobile_report_contact(request):
+    if request.method == 'POST':
+        reqBody = json.loads(request.body)
+        # print('req', reqBody)
+        report_text = reqBody['text']
+        contact_id = reqBody['contact_id']
+        print('data', report_text, contact_id)
+        contact = Contact.objects.get(id=int(contact_id))
+        print('contact', contact)
+        user = request.user
+        Report_Contact.objects.create(
+            user=user,
+            contact=contact,
+            report_note=report_text,
+        )
+        return Response({'msg': 'success'})
+    else:
+        return Response({'msg': 'failed'})
+
+
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
 def filter_contact(request):
     if request.method == 'POST':
         data = request.data
@@ -377,7 +427,10 @@ def filter_contact(request):
             )
         print("con", contact)
         serializer = ContactSerializer(contact, many=True)
-        return Response(serializer.data)
+        if contact:
+            return Response({'msg': 'yes', 'data': serializer.data})
+        else:
+            return Response({'msg': 'no'})
 
 
 @login_required(login_url='admin_login')
